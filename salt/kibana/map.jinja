@@ -1,0 +1,20 @@
+{% set kibana = salt['grains.filter_by']({
+    'default': {
+        'config': {
+            'elasticsearch_url': 'http://localhost:9200',
+            'server.host': '127.0.0.1',
+            'server.port': 5601
+        },
+        'ssl_directory': '/etc/salt/ssl/certs',
+        'es_client_node': True,
+        'kibana_env': [
+            'NODE_OPTIONS=--max-old-space-size=1024'
+        ]
+    },
+    'Debian': {
+        'pkgs': [
+            'apt-transport-https',
+            'openjdk-7-jre-headless'
+        ],
+    },
+}, grain='os_family', merge=salt['pillar.get']('kibana:lookup'), base='default') %}

@@ -1,0 +1,12 @@
+{% set fluentd = salt['grains.filter_by']({
+    'default': {
+        'service': 'fluentd',
+        'conf_file': '/etc/fluent/fluent.conf',
+        'global_log_level': 'info',
+        'nginx_config': {
+            'cert_file': 'fluentd.example.com.crt',
+            'key_file': 'fluentd.example.com.key'
+        },
+        'ssl_directory': '/etc/ssl',
+    },
+}, grain='os_family', merge=salt.pillar.get('fluentd:overrides'), base='default') %}
